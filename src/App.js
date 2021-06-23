@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import SearchList from './pages/SearchList';
 import SingleProject from './pages/SingleProject';
 import Nav from './components/Nav';
+import NotFound from './pages/NotFound'
 
 
 import { 
@@ -20,7 +21,8 @@ function App() {
           <Switch>
             <Route exact path = '/' component= {Home} />
             <Route exact path = '/search' component= {SearchList} />
-            <Route exact path = '/project' component= {SingleProject} />
+            <Route exact path = '/project/:id' component= {SingleProject} />
+            <Route path ='*' component= {NotFound}/>
           </Switch>
         </Router>
     </div>

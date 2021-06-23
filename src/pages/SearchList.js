@@ -7,25 +7,32 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Paper
- } from '@material-ui/core'
+    Paper,
+    Link
+} from '@material-ui/core';
+
+import {Link as BrowserLink} from 'react-router-dom';
 
 import axios from 'axios';
 
 
-const SearchList = (props) => {
-    //state for axios fetc
-    console.log('where my keyword yo', props);
+const SearchList = () => {
+    // console.log('qqq', q)
     const [repos, setRepos] = useState({hits: []});
     //state for loading
     const [isLoading, setLoading] = useState(true)
 
-    useEffect(async () => {
-        const repositories = await axios(
-            'https://api.github.com/search/repositories?q=boston&terrier&per_page=15&page=1'
-        );
-        setRepos(repositories.data.items)
-        setLoading(false)
+    useEffect(() => {
+        async function fetchData() {
+            const keyword = localStorage.getItem('keyword')
+            const repositories = await axios(
+                `https://api.github.com/search/repositories?q=${keyword}&per_page=15&page=1`
+            );
+            setRepos(repositories.data.items)
+            setLoading(false)
+        }
+        fetchData()
+    
     },[])
 
     if(isLoading){
@@ -48,7 +55,7 @@ const SearchList = (props) => {
                     {repos.map((row) => (
                         <TableRow key={row.id}>
                         <TableCell component="th" scope="row">
-                            {row.name}
+                            <Link to='/result/row.id'>{row.name}</Link>
                         </TableCell>
                         <TableCell align="right">{row.language}</TableCell>
                         <TableCell align="right">{row.stargazers_count}</TableCell>

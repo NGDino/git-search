@@ -1,8 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit'
-import searchParamsReducer from './SearchParamsSlice'
+// import { configureStore } from '@reduxjs/toolkit'
+// import searchParamsReducer from './searchParamsSlice'
 
-export default configureStore({
-    reducer: {
-        searchParams: searchParamsReducer
-    },
-})
+// export default configureStore({
+//     reducer: {
+//         searchParams: searchParamsReducer
+//     },
+// })

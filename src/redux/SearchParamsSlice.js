@@ -1,18 +1,25 @@
-import {createSlice} from '@reduxjs/toolkit';
+// import {createSlice} from '@reduxjs/toolkit';
 
-export const searchParamsSlice = createSlice ({
-    name:'searchParams',
-    initialState: {
-        q: '',
-        language: ''
-    },
-    reducers: {
-        changeParams: (state, action) => {
-            state == action.payload
-        }
-    }
-})
+// let initialParams = {
+//     searchParams: {
 
-export const { changeParams } = searchParamsSlice.actions;
+//     }
+// }
 
-export default searchParamsSlice.reducer;
+// export const searchParamsSlice = createSlice ({
+//     name:'searchParams',
+//     initialState: {
+//         searchParams: localStorage.getItem('searchParams')
+//             ? JSON.parse(localStorage.getItem('searchParams')) : {},
+//     },
+//     reducers: {
+//         changeParams: (state, action) => {
+//             console.log(action)
+//             state.searchParams = action.payload
+//         }
+//     }
+// })
+
+// export const { changeParams } = searchParamsSlice.actions;
+
+// export default searchParamsSlice.reducer;
