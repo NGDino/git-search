@@ -7,6 +7,7 @@ import {makeStyles} from '@material-ui/core/styles'
 //use history import to redirect after search function
 import {useHistory} from 'react-router-dom';
 
+//styles for material-ui
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -31,13 +32,14 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#d3d3d3CC',
         boxShadow: '0 5px 5px 4px'
     },
-    input: {
-        backgroundColor: '#fffff'
+    button: {
+        height: '100%'
     }
+
 
 }))
 const Banner = () => {
-    //useHistory variable
+    //useHistory variable to link to next page after function
     const history = useHistory()
 
     //classes for material ui stylesheet
@@ -45,22 +47,42 @@ const Banner = () => {
 
     //state for for entry
     const [keyword, setKeyword] = useState('');
-    //set errors for validation true or false
-    const [errors, setErrors] = useState(true);
+    //state for errors for form validation
+    const [errors, setErrors] = useState({searchKeyword:''});
+    // validation function to set error and also error message
+    const validate =() => {
+        //start with empty object allows possibillity for more inputs later
+        let temp = {}
+        //if empty text keyword field then show error message
+        temp.searchKeyword = keyword?'':'You must enter a search keyword'
+        //set errors to temp object 
+        setErrors({
+            ...temp
+        })
+        console.log(temp)
+        //return true if all inputs have no error message
+        return  Object.values(temp).every(x => x === '')
+    }
 
-    //set state to users search input
+    //set state to users search input on form input change
     const handleChange= (e) => {
         const {value} = e.target
-        console.log(value)
-        
         setKeyword(value)
     }
 
-    //set global state then open searchlist page
+    //set search keyword to localStorage then open searchList page
     const handleSearch = async () => {
-        console.log('keyword', keyword)
-        await localStorage.setItem('keyword', keyword)
-        history.push('/search')
+        // if validation returns true execute function
+        if(validate()){
+            //set localStorage
+            await localStorage.setItem('keyword', keyword)
+            console.log('key', keyword)
+            console.log('error', errors)
+            
+            //route to searchList page
+            history.push('/search')
+        }else return //exit func if not validated
+    
     }
 
     return(
@@ -73,32 +95,38 @@ const Banner = () => {
             spacing = {2}
             className={classes.bannerContainer}>
 
-                <Grid item 
-                xs={12} sm={6} 
+                <Grid container 
                 className={classes.textbox}
+                direction='row'
+                justify="flex-start"
+                alignItems="center"
+                spacing = {2}
 
-                component={Paper}
                 >
-
+                    <Grid item xs={12}>
                         <Typography variant = 'h5' gutterBottom>
                             Search GitHub for Repositories
                         </Typography>
-                        <form>
-                            <TextField
-                                required
-                                className={classes.input}
-                                id="search-keyword"
-                                label="Search Keyword"
-                                defaultValue="Hello World"
-                                variant="outlined"
-                                onChange={handleChange}
-                                inputProps={{ 'aria-label': 'keyword for repository search' }}
-                            />
-                            <Button onClick={handleSearch} color='primary' variant="contained">
-                                <SearchIcon/>
-                            </Button>
-                        </form>
-                        
+                    </Grid>
+                    <Grid item xs={9}>
+                        <TextField
+                            required
+                            fullWidth
+                            id="search-keyword"
+                            label="Search Keyword"
+                            variant="filled"
+                            onChange={handleChange}
+                            error ={errors.searchKeyword.length > 2}
+                            helperText= {errors.searchKeyword}
+                            >
+
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <Button onClick={handleSearch} color='primary' variant="contained" className={classes.button}>
+                            <SearchIcon fontSize="large"/>
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
             <Grid container direction='row' justify='center' alignItems='center' spacing={2}>

@@ -53,11 +53,11 @@ const SearchList = () => {
                     </TableHead>
                     <TableBody>
                     {repos.map((row) => (
-                        <TableRow key={row.id}>
+                        <TableRow key={row.id} component={BrowserLink} to= {`/project/${row.id}`}>
                         <TableCell component="th" scope="row">
-                            <Link to='/result/row.id'>{row.name}</Link>
+                            {row.name}
                         </TableCell>
-                        <TableCell align="right">{row.language}</TableCell>
+                        <TableCell align="right">{row.id}</TableCell>
                         <TableCell align="right">{row.stargazers_count}</TableCell>
                         </TableRow>
                     ))}

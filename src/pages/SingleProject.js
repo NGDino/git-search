@@ -1,10 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react'
+
+import axios from 'axios';
+
+import {useParams} from 'react-router-dom';
 
 const SingleProject = () => {
 
-    return (
+    const {id} = useParams();
+
+    const repoData = {}
+
+    useEffect(() => {
+        async function fetchData() {
+            const repo = await axios(
+                `https://api.github.com/repositories/${id}`
+            );
+            console.log(repo);
+        }
+        fetchData()
+    },[])
+
+    return(
         <div>
-            This will be a dope repo you can see details about
+            Real cool project
         </div>
     )
 }
